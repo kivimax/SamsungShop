@@ -1,25 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Outlet,
+} from "react-router-dom";
+import Banner from "./Banner";
+import Cards from "./Cards";
+import Contact from "./Contact";
+import Heder from "./Heder";
+import Home from "./Home";
+import Navbar from "./Navbar";
+import Product from "./Product";
+import Top from "./Top";
+import ScrollToTopButton from "./Scroll";
+import Carusel from "./Carusel";
 
-function App() {
+const Main = ({ setFilteredCategory, filteredCategory }) => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Top />
+      <Navbar setFilteredCategory={setFilteredCategory} />
+      <Home />
+      <Cards />
+      <ScrollToTopButton />
+      <Banner />
+      <Carusel />
+      <Outlet />
+      <Product filteredCategory={filteredCategory} />
+    </>
   );
-}
+};
+
+const App = () => {
+  const [filteredCategory, setFilteredCategory] = React.useState(null);
+
+  return (
+    <Router>
+      <Heder />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Main
+              filteredCategory={filteredCategory}
+              setFilteredCategory={setFilteredCategory}
+            />
+          }
+        />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+    </Router>
+  );
+};
 
 export default App;
