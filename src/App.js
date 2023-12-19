@@ -14,7 +14,7 @@ import Navbar from "./Navbar";
 import Product from "./Product";
 import Top from "./Top";
 import ScrollToTopButton from "./Scroll";
-import Carusel from "./Carusel";
+import About from "./About";
 
 const Main = ({ setFilteredCategory, filteredCategory }) => {
   return (
@@ -25,7 +25,6 @@ const Main = ({ setFilteredCategory, filteredCategory }) => {
       <Cards />
       <ScrollToTopButton />
       <Banner />
-      <Carusel />
       <Outlet />
       <Product filteredCategory={filteredCategory} />
     </>
@@ -49,6 +48,7 @@ const App = () => {
           }
         />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<About />} />
       </Routes>
     </Router>
   );

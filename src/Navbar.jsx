@@ -26,15 +26,7 @@ const Navbar = ({ setFilteredCategory }) => {
   return (
     <nav className="navbar navbar-expand-lg" id="navbar">
       <div className="container-fluid">
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+        <button className="navbar-toggler">
           <span>
             <i className="fa-solid fa-bars" style={{ color: "white" }}></i>
           </span>
@@ -51,7 +43,9 @@ const Navbar = ({ setFilteredCategory }) => {
               </b>
             </li>
             <li className="nav-item">
-              <b className="nav-link">About Us</b>
+              <Link to="/about" target="_blank" className="nav-link">
+                About Samsung
+              </Link>
             </li>
             <li className="nav-item dropdown">
               <b

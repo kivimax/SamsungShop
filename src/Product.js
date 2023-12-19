@@ -1,200 +1,51 @@
-import React from "react";
-import img from "./image/a1.webp";
-import img1 from "./image/a2.webp";
-import img2 from "./image/a3.webp";
-import img3 from "./image/a4.webp";
-import img4 from "./image/a5.webp";
-import img5 from "./image/a6.webp";
-import img6 from "./image/a7.webp";
-import img7 from "./image/a8.webp";
-import img8 from "./image/a9.webp";
-import img9 from "./image/a10.webp";
-import img10 from "./image/a11.webp";
-import img11 from "./image/a12.webp";
-import img12 from "./image/a13.webp";
-import img13 from "./image/a14.jpg";
-import img14 from "./image/a15.jpg";
-import img15 from "./image/a16.jpg";
-import img16 from "./image/a17.jpg";
-import img17 from "./image/a18.jpeg";
-import img18 from "./image/a19.jpg";
-import img19 from "./image/a20.jpg";
-
-const Items = [
-  {
-    title: "Galaxy S23",
-    description: "rfdoeeeo ",
-    price: "120$",
-    img: img,
-    category: "Phone",
-  },
-  {
-    title: "Galaxy Z Fold 5",
-    description: "rfdoeeeo ",
-    price: "120$",
-    img: img1,
-    category: "Phone",
-  },
-  {
-    title: "Galaxy Watch",
-    description: "rfdoeeeo ",
-    price: "120$",
-    img: img2,
-    category: "Smart Watch",
-  },
-  {
-    title: "Galaxy Watch",
-    description: "rfdoeeeo ",
-    price: "120$",
-    img: img3,
-    category: "Smart Watch",
-  },
-  {
-    title: "Galaxy S23 Ultra",
-    description: "rfdoeeeo ",
-    price: "120$",
-    img: img4,
-    category: "Phone",
-  },
-  {
-    title: "Galaxy S23 Green",
-    description: "rfdoeeeo ",
-    price: "120$",
-    img: img5,
-    category: "Phone",
-  },
-  {
-    title: "Galaxy Z Flip",
-    description: "rfdoeeeo ",
-    price: "120$",
-    img: img6,
-    category: "Phone",
-  },
-  {
-    title: "Galaxy Watch",
-    description: "rfdoeeeo ",
-    price: "120$",
-    img: img7,
-    category: "Smart Watch",
-  },
-  {
-    title: "Galaxy TV",
-    description: "rfdoeeeo ",
-    price: "120$",
-    img: img8,
-    category: "TV",
-  },
-  {
-    title: "Galaxy TV",
-    description: "rfdoeeeo ",
-    price: "120$",
-    img: img9,
-    category: "TV",
-  },
-  {
-    title: "Galaxy Watch",
-    description: "rfdoeeeo ",
-    price: "120$",
-    img: img10,
-    category: "Smart Watch",
-  },
-  {
-    title: "Galaxy TV",
-    description: "rfdoeeeo ",
-    price: "120$",
-    img: img11,
-    category: "TV",
-  },
-  {
-    title: "Galaxy S23 Ultra",
-    description: "rfdoeeeo ",
-    price: "120$",
-    img: img12,
-    category: "Phone",
-  },
-  {
-    title: "Samsung Washing machine ",
-    description: "rfdoeeeo ",
-    price: "120$",
-    img: img13,
-    category: "Washing machine",
-  },
-  {
-    title: "Samsung Washing machine",
-    description: "rfdoeeeo ",
-    price: "120$",
-    img: img14,
-    category: "Washing machine",
-  },
-  {
-    title: "Samsung Washing machine",
-    description: "rfdoeeeo ",
-    price: "120$",
-    img: img15,
-    category: "Washing machine",
-  },
-  {
-    title: "Samsung Fridge ",
-    description: "rfdoeeeo ",
-    price: "120$",
-    img: img16,
-    category: "Fridge",
-  },
-  {
-    title: "Samsung Fridge",
-    description: "rfdoeeeo ",
-    price: "120$",
-    img: img17,
-    category: "Fridge",
-  },
-  {
-    title: "Samsung Fridge ",
-    description: "rfdoeeeo ",
-    price: "120$",
-    img: img18,
-    category: "Fridge",
-  },
-  {
-    title: "Samsung Fridge",
-    description: "rfdoeeeo ",
-    price: "120$",
-    img: img19,
-    category: "Fridge",
-  },
-];
+import React, { useState, useEffect } from "react";
 
 const Product = ({ filteredCategory }) => {
-  const [displayedItems, setDisplayedItems] = React.useState(8);
+  const [displayedItems, setDisplayedItems] = useState(8);
+  const [items, setItems] = useState([]);
 
   const handleViewMore = () => {
     setDisplayedItems(displayedItems + 4);
   };
 
+  useEffect(() => {
+    fetch("https://657eec4c9d10ccb465d583f7.mockapi.io/Items")
+      .then((res) => res.json())
+      .then((arr) => {
+        setItems(arr);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+
   const filteredItems = filteredCategory
-    ? Items.filter((item) => item.category === filteredCategory)
-    : Items;
+    ? items.filter((item) => item.category === filteredCategory)
+    : items;
 
   return (
     <div>
       <div className="container" id="product-cards">
-        <div className="row" style={{ marginTop: "30px" }}>
-          {filteredItems.slice(0, displayedItems).map((item, index) => (
-            <div className="col-md-3 py-3 py-md-0" key={index}>
-              <div className="card">
-                <img src={item.img} alt="" />
-                <div className="card-body">
-                  <h3>{item.title}</h3>
-                  <h5>
-                    {item.price}
-                    <span>
-                      <i className="fa-solid fa-cart-shopping"></i>
-                    </span>
-                  </h5>
+        {filteredItems.length > 0 && (
+          <div className="row" style={{ marginTop: "30px" }}>
+            {filteredItems.slice(0, displayedItems).map((item, index) => (
+              <div className="col-md-3 py-3 py-md-0" key={index}>
+                <div className="card">
+                  <img src={item.img} alt={item.title} />
+                  <div className="card-body">
+                    <h3>{item.title}</h3>
+                    <h5>
+                      {item.price}
+                      <span>
+                        <i className="fa-solid fa-cart-shopping"></i>
+                      </span>
+                    </h5>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
         {displayedItems < filteredItems.length && (
           <div id="viewmorebtn">
             <button onClick={handleViewMore}>View More</button>
@@ -210,10 +61,10 @@ const Product = ({ filteredCategory }) => {
           Samsung is committed to complying with local laws and regulations and
           applying a strict global code of conduct to all employees. We believe
           that ethical governance is not only a way to respond to rapid changes
-          in the global business environment, but also a tool for building trust
+          in the global business environment but also a tool for building trust
           with stakeholders, including customers, shareholders, employees,
-          business partners and local communities. In an effort to become one of
-          the most ethical companies in the world, Samsung continues to train
+          business partners, and local communities. In an effort to become one
+          of the most ethical companies in the world, Samsung continues to train
           its employees and implement monitoring systems to implement fair and
           transparent corporate governance practices.
         </p>
@@ -229,7 +80,7 @@ const Product = ({ filteredCategory }) => {
           <div className="col-md-4 py-3 py-md-0">
             <i className="fa-solid fa-truck"></i>
             <h5>Fast Delivery</h5>
-            <p>World wide</p>
+            <p>Worldwide</p>
           </div>
           <div className="col-md-4 py-3 py-md-0">
             <i className="fa-solid fa-thumbs-up"></i>
@@ -260,7 +111,7 @@ const Product = ({ filteredCategory }) => {
                 </strong>
               </div>
               <div className="col-lg-3 col-md-6 footer-links">
-                <h4>Usefull Links</h4>
+                <h4>Useful Links</h4>
                 <ul>
                   <li>
                     <b>Home</b>
@@ -268,7 +119,9 @@ const Product = ({ filteredCategory }) => {
                   <li>
                     <b>About</b>
                   </li>
-                  <b>Contact</b>
+                  <li>
+                    <b>Contact</b>
+                  </li>
                   <li>
                     <b>Services</b>
                   </li>
@@ -278,7 +131,7 @@ const Product = ({ filteredCategory }) => {
                 <h4>Our Services</h4>
                 <ul>
                   <li>
-                    <b>Smart Whone</b>
+                    <b>Smart Phone</b>
                   </li>
                   <li>
                     <b>Smart Watch</b>
@@ -296,20 +149,20 @@ const Product = ({ filteredCategory }) => {
               </div>
               <div className="col-lg-3 col-md-6 footer-links">
                 <h4>Our Social Network</h4>
-                <div className="socail-links mt-3">
-                  <b className="twiiter" style={{ marginLeft: "0.5rem" }}>
+                <div className="social-links mt-3">
+                  <b className="twitter" style={{ marginLeft: "0.5rem" }}>
                     <i className="fa-brands fa-twitter"></i>
                   </b>
-                  <b className="twiiter" style={{ marginLeft: "0.5rem" }}>
+                  <b className="facebook" style={{ marginLeft: "0.5rem" }}>
                     <i className="fa-brands fa-facebook-f"></i>
                   </b>
-                  <b className="twiiter" style={{ marginLeft: "0.5rem" }}>
+                  <b className="google-plus" style={{ marginLeft: "0.5rem" }}>
                     <i className="fa-brands fa-google-plus"></i>
                   </b>
-                  <b className="twiiter" style={{ marginLeft: "0.5rem" }}>
+                  <b className="instagram" style={{ marginLeft: "0.5rem" }}>
                     <i className="fa-brands fa-instagram"></i>
                   </b>
-                  <b className="twiiter" style={{ marginLeft: "0.5rem" }}>
+                  <b className="linkedin" style={{ marginLeft: "0.5rem" }}>
                     <i className="fa-brands fa-linkedin-in"></i>
                   </b>
                 </div>
@@ -320,7 +173,7 @@ const Product = ({ filteredCategory }) => {
         <hr />
         <div className="container py-4">
           <div className="copyright">
-            &copy; Copyright <strong>Samsung</strong>.All Rights Reserved
+            &copy; Copyright <strong>Samsung</strong>. All Rights Reserved
           </div>
           <div className="credits">
             Designed By <b>Max</b>

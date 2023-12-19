@@ -18,9 +18,7 @@ const Cards = () => {
             {Art.map((item, i) => (
               <img key={i} src={item.imgl} alt={`item-${i}`} />
             ))}
-            <div className="card-img-overlay">
-              <p>{/* <strong>$200.30</strong> */}</p>
-            </div>
+            <div className="card-img-overlay"></div>
           </div>
         </div>
         <div className="col-md-6 py-3 py-md-2">
