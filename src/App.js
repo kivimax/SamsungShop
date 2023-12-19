@@ -15,6 +15,7 @@ import Product from "./Product";
 import Top from "./Top";
 import ScrollToTopButton from "./Scroll";
 import About from "./About";
+import Slider from "./Slider/Slider";
 
 const Main = ({ setFilteredCategory, filteredCategory }) => {
   return (
@@ -25,6 +26,7 @@ const Main = ({ setFilteredCategory, filteredCategory }) => {
       <Cards />
       <ScrollToTopButton />
       <Banner />
+      <Slider />
       <Outlet />
       <Product filteredCategory={filteredCategory} />
     </>

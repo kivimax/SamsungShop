@@ -678,3 +678,8 @@ html {
 .scroll-to-top-button.visible {
   opacity: 1;
 }
+
+.horizontal-image {
+  width: 100%;
+  height: auto;
+}
