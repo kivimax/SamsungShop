@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Product = ({ filteredCategory }) => {
-  const [displayedItems, setDisplayedItems] = useState(8);
-  const [items, setItems] = useState([]);
+  const [displayedItems, setDisplayedItems] = React.useState(8);
+  const [items, setItems] = React.useState([]);
 
   const handleViewMore = () => {
     setDisplayedItems(displayedItems + 4);
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     fetch("https://657eec4c9d10ccb465d583f7.mockapi.io/Items")
       .then((res) => res.json())
       .then((arr) => {
         setItems(arr);
+        console.log(arr);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -30,18 +32,25 @@ const Product = ({ filteredCategory }) => {
           <div className="row" style={{ marginTop: "30px" }}>
             {filteredItems.slice(0, displayedItems).map((item, index) => (
               <div className="col-md-3 py-3 py-md-0" key={index}>
-                <div className="card">
-                  <img src={item.img} alt={item.title} />
-                  <div className="card-body">
-                    <h3>{item.title}</h3>
-                    <h5>
-                      {item.price}
-                      <span>
-                        <i className="fa-solid fa-cart-shopping"></i>
-                      </span>
-                    </h5>
+                {console.log(item.id)}
+                <Link
+                  to={`items/${item.id}`}
+                  style={{ textDecoration: "none" }}
+                  target="_blank"
+                >
+                  <div className="card">
+                    <img src={item.img} alt={item.title} />
+                    <div className="card-body">
+                      <h3>{item.title}</h3>
+                      <h5>
+                        {item.price}
+                        <span>
+                          <i className="fa-solid fa-cart-shopping"></i>
+                        </span>
+                      </h5>
+                    </div>
                   </div>
-                </div>
+                </Link>
               </div>
             ))}
           </div>

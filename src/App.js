@@ -16,6 +16,9 @@ import Top from "./Top";
 import ScrollToTopButton from "./Scroll";
 import About from "./About";
 import Slider from "./Slider/Slider";
+import ProductDetails from "./ProductDetails";
+import { Provider } from "react-redux";
+import store from "./store/store";
 
 const Main = ({ setFilteredCategory, filteredCategory }) => {
   return (
@@ -37,22 +40,25 @@ const App = () => {
   const [filteredCategory, setFilteredCategory] = React.useState(null);
 
   return (
-    <Router>
-      <Heder />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Main
-              filteredCategory={filteredCategory}
-              setFilteredCategory={setFilteredCategory}
-            />
-          }
-        />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/about" element={<About />} />
-      </Routes>
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <Heder />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Main
+                filteredCategory={filteredCategory}
+                setFilteredCategory={setFilteredCategory}
+              />
+            }
+          />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/about" element={<About />} />
+          <Route path="items/:id" element={<ProductDetails />} />
+        </Routes>
+      </Router>
+    </Provider>
   );
 };
 

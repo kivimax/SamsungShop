@@ -3,7 +3,7 @@ import "./slider.css";
 
 const Slider = () => {
   return (
-    <max>
+    <>
       <div className="w">
         <div className="c">
           <input type="radio" name="slide" id="c1" checked />
@@ -48,7 +48,7 @@ const Slider = () => {
           </label>
         </div>
       </div>
-    </max>
+    </>
   );
 };
 

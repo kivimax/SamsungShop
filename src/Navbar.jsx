@@ -5,22 +5,46 @@ const Navbar = ({ setFilteredCategory }) => {
   const [showCategories, setShowCategories] = React.useState(false);
   const [selectedCategory, setSelectedCategory] = React.useState(null);
   const [update, setUpdate] = React.useState("Страница 1");
-  const categories = [
-    "Phone",
-    "TV",
-    "Washing machine",
-    "Fridge",
-    "Smart Watch",
+  const [inputValue, setInputValue] = React.useState("");
+  const [suggestions, setSuggestions] = React.useState([]);
+  const products = [
+    { id: 1, name: "Galaxy S23" },
+    { id: 2, name: "Galaxy Z Fold 5" },
+    { id: 3, name: "Galaxy Watch 6" },
+    { id: 4, name: "Smart Fridge" },
+    { id: 5, name: "4K TV" },
   ];
 
   const onClickCategories = (category) => {
     setSelectedCategory(category);
     setShowCategories(false);
     setFilteredCategory(category);
+    setInputValue("");
+    setSuggestions([]);
   };
 
   const clickUpdate = () => {
     setUpdate("Страница 2");
+  };
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setInputValue(value);
+
+    if (value.length > 0) {
+      const newSuggestions = products.filter((product) =>
+        product.name.toLowerCase().includes(value.toLowerCase())
+      );
+      setSuggestions(newSuggestions);
+    } else {
+      setSuggestions([]);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" && suggestions.length > 0) {
+      onClickCategories(suggestions[0].name);
+    }
   };
 
   return (
@@ -63,13 +87,15 @@ const Navbar = ({ setFilteredCategory }) => {
                   aria-labelledby="navbarDropdown"
                   style={{ backgroundColor: "white" }}
                 >
-                  {categories.map((category, index) => (
+                  {products.map((product, index) => (
                     <li
                       key={index}
-                      onClick={() => onClickCategories(category)}
-                      className={selectedCategory === category ? "active" : ""}
+                      onClick={() => onClickCategories(product.name)}
+                      className={
+                        selectedCategory === product.name ? "active" : ""
+                      }
                     >
-                      <b className="dropdown-item">{category}</b>
+                      <b className="dropdown-item">{product.name}</b>
                     </li>
                   ))}
                 </ul>
@@ -81,22 +107,40 @@ const Navbar = ({ setFilteredCategory }) => {
               </Link>
             </li>
           </ul>
-
-          <form className="d-flex">
+          <div className="input-group" style={{ maxWidth: "200px" }}>
             <input
               className="form-control me-2"
               type="search"
               placeholder="Search"
               aria-label="Search"
+              value={inputValue}
+              onChange={handleChange}
+              onKeyPress={handleKeyPress}
             />
+            {suggestions.length > 0 && (
+              <div className="dropdown-menu" style={{ marginTop: "2px" }}>
+                {suggestions.map((suggestion, index) => (
+                  <div
+                    key={index}
+                    onClick={() => onClickCategories(suggestion.name)}
+                    className={
+                      selectedCategory === suggestion.name ? "active" : ""
+                    }
+                  >
+                    <b className="dropdown-item">{suggestion.name}</b>
+                  </div>
+                ))}
+              </div>
+            )}
             <button
               className="btn btn-outline-success"
-              type="submit"
+              type="button"
               id="search-btn"
+              onClick={() => onClickCategories(inputValue)}
             >
               Search
             </button>
-          </form>
+          </div>
         </div>
       </div>
     </nav>
