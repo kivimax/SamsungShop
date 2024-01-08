@@ -21,8 +21,9 @@ const ProductDetails = () => {
       <h2>Product Details</h2>
       {item && (
         <div>
-          <img src={item.img} alt={item.title} />
+          <img className="a" src={item.img} alt={item.title} />
           <h3>{item.title}</h3>
+          <h4>{item.price}</h4>
         </div>
       )}
     </div>

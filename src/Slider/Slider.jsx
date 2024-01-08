@@ -1,12 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import "./slider.css";
 
 const Slider = () => {
+  const [selectedSlide, setSelectedSlide] = useState("c1");
+
+  const handleSlideChange = (slideId) => {
+    setSelectedSlide(slideId);
+  };
+
   return (
     <>
       <div className="w">
         <div className="c">
-          <input type="radio" name="slide" id="c1" checked />
+          <input
+            type="radio"
+            name="slide"
+            id="c1"
+            checked={selectedSlide === "c1"}
+            onChange={() => handleSlideChange("c1")}
+          />
           <label htmlFor="c1" className="cart">
             <div className="r">
               <div className="ic">1</div>

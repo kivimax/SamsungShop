@@ -1,3 +1,15 @@
+:root {
+  --body_background: white;
+  --body_color: black;
+  --link_color: blue;
+}
+
+[data-theme="dark"] {
+  --body_background: #282c34;
+  --body_color: white;
+  --link_color: cyan;
+}
+
 .App {
   text-align: center;
 }
@@ -14,18 +26,18 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: var(--body_background);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: var(--body_color);
 }
 
 .App-link {
-  color: #61dafb;
+  color: var(--link_color);
 }
 
 @keyframes App-logo-spin {

@@ -20,22 +20,6 @@ import ProductDetails from "./ProductDetails";
 import { Provider } from "react-redux";
 import store from "./store/store";
 
-const Main = ({ setFilteredCategory, filteredCategory }) => {
-  return (
-    <>
-      <Top />
-      <Navbar setFilteredCategory={setFilteredCategory} />
-      <Home />
-      <Cards />
-      <ScrollToTopButton />
-      <Banner />
-      <Slider />
-      <Outlet />
-      <Product filteredCategory={filteredCategory} />
-    </>
-  );
-};
-
 const App = () => {
   const [filteredCategory, setFilteredCategory] = React.useState(null);
 
@@ -59,6 +43,27 @@ const App = () => {
         </Routes>
       </Router>
     </Provider>
+  );
+};
+
+const Main = ({ setFilteredCategory, filteredCategory }) => {
+  const [searchValue, setSearchValue] = React.useState("");
+  return (
+    <>
+      <Top />
+      <Navbar
+        setFilteredCategory={setFilteredCategory}
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+      />
+      <Home />
+      <Cards />
+      <ScrollToTopButton />
+      <Banner />
+      <Slider />
+      <Outlet />
+      <Product filteredCategory={filteredCategory} searchValue={searchValue} />
+    </>
   );
 };
 

@@ -1,44 +1,83 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const Product = ({ filteredCategory }) => {
-  const [displayedItems, setDisplayedItems] = React.useState(8);
-  const [items, setItems] = React.useState([]);
+const Product = ({ filteredCategory, searchValue }) => {
+  const [displayedItems, setDisplayedItems] = useState(8);
+  const [items, setItems] = useState([]);
+  const [sortedItems, setSortedItems] = useState([]);
+  const [sortBy, setSortBy] = useState("asc");
 
   const handleViewMore = () => {
     setDisplayedItems(displayedItems + 4);
   };
 
-  React.useEffect(() => {
-    fetch("https://657eec4c9d10ccb465d583f7.mockapi.io/Items")
+  const handleSort = (order) => {
+    const sorted = [...items];
+    if (order === "asc") {
+      sorted.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+    } else if (order === "desc") {
+      sorted.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+    } else if (order === "alphabetical") {
+      sorted.sort((a, b) => a.title.localeCompare(b.title));
+    }
+    setSortedItems(sorted);
+    setSortBy(order);
+  };
+
+  const handleSortAlphabetically = () => {
+    handleSort("alphabetical");
+  };
+
+  useEffect(() => {
+    fetch`https://657eec4c9d10ccb465d583f7.mockapi.io/Items`
       .then((res) => res.json())
       .then((arr) => {
         setItems(arr);
-        console.log(arr);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
   }, []);
 
-  const filteredItems = filteredCategory
-    ? items.filter((item) => item.category === filteredCategory)
-    : items;
+  useEffect(() => {
+    handleSort(sortBy);
+  }, [items, sortBy]);
+
+  const Phones = items.filter((obj) => {
+    return obj.title.toLowerCase().includes(searchValue.toLowerCase());
+  });
+
+  const filteredItems = sortedItems.filter((item) => {
+    const matchesCategory =
+      !filteredCategory || item.category === filteredCategory;
+    const matchesSearch = Phones.includes(item);
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <div>
       <div className="container" id="product-cards">
+        <div>
+          <button className="ab" onClick={handleSortAlphabetically}>
+            По алфавиту
+          </button>
+          <button className="ab" onClick={() => handleSort("asc")}>
+            От дешевого к дорогому
+          </button>
+          <button className="ab" onClick={() => handleSort("desc")}>
+            От дорогого к дешевому
+          </button>
+        </div>
         {filteredItems.length > 0 && (
           <div className="row" style={{ marginTop: "30px" }}>
             {filteredItems.slice(0, displayedItems).map((item, index) => (
               <div className="col-md-3 py-3 py-md-0" key={index}>
-                {console.log(item.id)}
                 <Link
                   to={`items/${item.id}`}
                   style={{ textDecoration: "none" }}
                   target="_blank"
                 >
-                  <div className="card">
+                  <div className="card" style={{ borderRadius: "1rem" }}>
                     <img src={item.img} alt={item.title} />
                     <div className="card-body">
                       <h3>{item.title}</h3>
