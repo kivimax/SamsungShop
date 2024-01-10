@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import PaginationRounded from "./Pagination";
 
 const Product = ({ filteredCategory, searchValue }) => {
-  const [displayedItems, setDisplayedItems] = useState(8);
+  const [displayedItems] = useState(8);
   const [items, setItems] = useState([]);
   const [sortedItems, setSortedItems] = useState([]);
   const [sortBy, setSortBy] = useState("asc");
-
-  const handleViewMore = () => {
-    setDisplayedItems(displayedItems + 4);
-  };
+  const [currentPage, setCurrentPage] = useState(1);
 
   const handleSort = (order) => {
     const sorted = [...items];
@@ -17,7 +15,7 @@ const Product = ({ filteredCategory, searchValue }) => {
       sorted.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
     } else if (order === "desc") {
       sorted.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
-    } else if (order === "alphabetical") {
+    } else if (order === "max") {
       sorted.sort((a, b) => a.title.localeCompare(b.title));
     }
     setSortedItems(sorted);
@@ -29,7 +27,7 @@ const Product = ({ filteredCategory, searchValue }) => {
   };
 
   useEffect(() => {
-    fetch`https://657eec4c9d10ccb465d583f7.mockapi.io/Items`
+    fetch(`https://657eec4c9d10ccb465d583f7.mockapi.io/Items`)
       .then((res) => res.json())
       .then((arr) => {
         setItems(arr);
@@ -54,6 +52,8 @@ const Product = ({ filteredCategory, searchValue }) => {
     return matchesCategory && matchesSearch;
   });
 
+  const itemsPerPage = 8;
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   return (
     <div>
       <div className="container" id="product-cards">
@@ -70,34 +70,40 @@ const Product = ({ filteredCategory, searchValue }) => {
         </div>
         {filteredItems.length > 0 && (
           <div className="row" style={{ marginTop: "30px" }}>
-            {filteredItems.slice(0, displayedItems).map((item, index) => (
-              <div className="col-md-3 py-3 py-md-0" key={index}>
-                <Link
-                  to={`items/${item.id}`}
-                  style={{ textDecoration: "none" }}
-                  target="_blank"
-                >
-                  <div className="card" style={{ borderRadius: "1rem" }}>
-                    <img src={item.img} alt={item.title} />
-                    <div className="card-body">
-                      <h3>{item.title}</h3>
-                      <h5>
-                        {item.price}
-                        <span>
-                          <i className="fa-solid fa-cart-shopping"></i>
-                        </span>
-                      </h5>
+            {filteredItems
+              .slice(
+                (currentPage - 1) * itemsPerPage,
+                currentPage * itemsPerPage
+              )
+              .map((item, index) => (
+                <div className="col-md-3 py-3 py-md-0" key={index}>
+                  <Link
+                    to={`items/${item.id}`}
+                    style={{ textDecoration: "none" }}
+                    target="_blank"
+                  >
+                    <div className="card" style={{ borderRadius: "1rem" }}>
+                      <img src={item.img} alt={item.title} />
+                      <div className="card-body">
+                        <h3>{item.title}</h3>
+                        <h5>
+                          {item.price}
+                          <span>
+                            <i className="fa-solid fa-cart-shopping"></i>
+                          </span>
+                        </h5>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              </div>
-            ))}
+                  </Link>
+                </div>
+              ))}
           </div>
         )}
         {displayedItems < filteredItems.length && (
-          <div id="viewmorebtn">
-            <button onClick={handleViewMore}>View More</button>
-          </div>
+          <PaginationRounded
+            onChangePage={(number) => setCurrentPage(number)}
+            totalItems={totalPages}
+          />
         )}
       </div>
       <div className="container" style={{ marginTop: "100px" }}>
