@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Search from "./Search";
 
-const Navbar = ({ setFilteredCategory, searchValue, setSearchValue }) => {
+const Navbar = ({ setFilteredCategory }) => {
   const [showCategories, setShowCategories] = React.useState(false);
   const [selectedCategory, setSelectedCategory] = React.useState(null);
   const products = ["Phone", "Smart Watch", "TV", "Washing machine", "Fridge"];
@@ -67,8 +67,6 @@ const Navbar = ({ setFilteredCategory, searchValue, setSearchValue }) => {
           </ul>
           <form className="d-flex ms-auto">
             <Search
-              searchValue={searchValue}
-              setSearchValue={setSearchValue}
               className="form-control me-2"
               type="search"
               placeholder="Search"

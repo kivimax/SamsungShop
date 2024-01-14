@@ -1,6 +1,9 @@
 import React from "react";
+import { SearchContext } from "../App";
 
-const Search = ({ className, placeholder, searchValue, setSearchValue }) => {
+const Search = ({ className, placeholder }) => {
+  const { searchValue, setSearchValue } = React.useContext(SearchContext);
+
   return (
     <div>
       <input

@@ -46,23 +46,26 @@ const App = () => {
   );
 };
 
+export const SearchContext = React.createContext();
+
 const Main = ({ setFilteredCategory, filteredCategory }) => {
   const [searchValue, setSearchValue] = React.useState("");
   return (
     <>
-      <Top />
-      <Navbar
-        setFilteredCategory={setFilteredCategory}
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
-      />
-      <Home />
-      <Cards />
-      <ScrollToTopButton />
-      <Banner />
-      <Slider />
-      <Outlet />
-      <Product filteredCategory={filteredCategory} searchValue={searchValue} />
+      <SearchContext.Provider value={{ searchValue, setSearchValue }}>
+        <Top />
+        <Navbar setFilteredCategory={setFilteredCategory} />
+        <Home />
+        <Cards />
+        <ScrollToTopButton />
+        <Banner />
+        <Slider />
+        <Outlet />
+        <Product
+          filteredCategory={filteredCategory}
+          searchValue={searchValue}
+        />
+      </SearchContext.Provider>
     </>
   );
 };
