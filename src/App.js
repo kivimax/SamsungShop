@@ -8,11 +8,10 @@ import {
 import Banner from "./Banner";
 import Cards from "./Cards";
 import Contact from "./Contact";
-import Heder from "./Heder";
+import Header from "./Header";
 import Home from "./Home";
 import Navbar from "./Navbar";
 import Product from "./Product";
-import Top from "./Top";
 import ScrollToTopButton from "./Scroll";
 import About from "./About";
 import Slider from "./Slider/Slider";
@@ -26,7 +25,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <Router>
-        <Heder />
+        <Header />
         <Routes>
           <Route
             path="/"
@@ -53,7 +52,6 @@ const Main = ({ setFilteredCategory, filteredCategory }) => {
   return (
     <>
       <SearchContext.Provider value={{ searchValue, setSearchValue }}>
-        <Top />
         <Navbar setFilteredCategory={setFilteredCategory} />
         <Home />
         <Cards />

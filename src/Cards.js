@@ -1,11 +1,9 @@
 import React from "react";
-import img from "./image/t2.jpg";
-import img1 from "./image/t1.jpg";
+import video from "./image/F2.mp4";
 
 const Art = [
   {
-    img: img,
-    imgl: img1,
+    video: video,
   },
 ];
 
@@ -16,17 +14,19 @@ const Cards = () => {
         <div className="col-md-6 py-3 py-md-2">
           <div className="card">
             {Art.map((item, i) => (
-              <img key={i} src={item.imgl} alt={`item-${i}`} />
+              <video
+                key={i}
+                autoPlay
+                muted
+                loop
+                style={{
+                  width: "200%",
+                  borderRadius: "1rem",
+                }}
+              >
+                <source src={item.video} type="video/mp4" />
+              </video>
             ))}
-            <div className="card-img-overlay"></div>
-          </div>
-        </div>
-        <div className="col-md-6 py-3 py-md-2">
-          <div className="card">
-            {Art.map((item, index) => (
-              <img key={index} src={item.img} alt={`item-${index}`} />
-            ))}
-            <div className="card-img-overlay"></div>
           </div>
         </div>
       </div>
